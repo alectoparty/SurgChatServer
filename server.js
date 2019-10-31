@@ -7,7 +7,8 @@ require('dotenv').config()
 var cors = require('cors')
 var multer = require('multer')
 var upload = multer({dest: 'uploads/'})
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
+app.use(cors())
 
 var validateUser = require('./lib/validateUser').validateUser
 
