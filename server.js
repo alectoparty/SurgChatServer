@@ -7,6 +7,7 @@ require('dotenv').config()
 var cors = require('cors')
 var multer = require('multer')
 var upload = multer({dest: 'uploads/'})
+const port = process.env.PORT || 3001;
 // app.use(cors(corsOptions))
 app.use(cors())
 
@@ -15,7 +16,7 @@ var validateUser = require('./lib/validateUser').validateUser
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-server.listen(3001);
+server.listen(port);
 
 var whitelist = ['http:localhost:3000', 'http://localhost:3001']
 var corsOptions = {
