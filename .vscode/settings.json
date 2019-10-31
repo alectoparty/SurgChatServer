@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/9e48366c-5cb0-4ee2-90d8-9a795f37eb01/resourceGroups/SurgChat/providers/Microsoft.Web/sites/SurgChat",
+    "appService.deploySubpath": ""
+}
