@@ -15,7 +15,7 @@ var validateUser = require('./lib/validateUser').validateUser
 
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, { origins: '*:*'});
 server.listen(port);
 
 var whitelist = ['http:localhost:3000', 'http://localhost:3001']
