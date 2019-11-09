@@ -213,13 +213,12 @@ io.on('connection', function (socket) {
                     name: name,
                     members: [uid]
                 }).then(doc => {
-                    const {members, name} = doc.data()
                     const id = doc.id
                     db.collection('users').doc(uid).update({
                         channels: admin.firestore.FieldValue.arrayUnion(doc.id)
                     }).then(() => {
                         socket.emit('newChannel', {
-                            members: members,
+                            members: [uid],
                             name: name,
                             id: id
                         })
