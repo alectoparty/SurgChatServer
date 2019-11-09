@@ -215,6 +215,12 @@ io.on('connection', function (socket) {
                 }).then(doc => {
                     db.collection('users').doc(uid).update({
                         channels: admin.firestore.FieldValue.arrayUnion(doc.id)
+                    }).then(() => {
+                        socket.emit('newChannel', {
+                            members: doc.data().members,
+                            name: doc.data().name,
+                            id: doc.id
+                        })
                     })
                 })
             }
