@@ -103,7 +103,7 @@ io.on('connection', function (socket) {
         validateUser(admin, idToken).then(validUser => {
             if (validUser) {
                 if (room) {
-                    db.collection('channels').doc(room).collection('messages').onSnapshot(querySnapshot => {
+                   let chatStream = db.collection('channels').doc(room).collection('messages').onSnapshot(querySnapshot => {
                         var messages = []
                         let length = querySnapshot.size
                         var index = 1
