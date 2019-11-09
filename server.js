@@ -182,23 +182,43 @@ io.on('connection', function (socket) {
     })
 
     socket.on('sendMessage', function(data) {
-        const {uid, channelID, text} = data
+        const {uid, channelID, text, idToken} = data
         console.log('DATA WAS', data)
-        db.collection('channels').doc(channelID).get().then(channelData => {
-            const {members} = channelData.data()
-            console.log('CHANNELDATA', channelData.data())
-            if (members.includes(uid)) {
-                db.collection('channels').doc(channelID).collection('messages').add({
-                    userId: uid,
-                    text: text,
-                    attachments: [],
-                    createdAt: Date.now(),
-                    updatedAt: Date.now(),
-                    read: [uid]
+        validateUser(admin, idToken).then(valid => {
+            if(valid) {
+                db.collection('channels').doc(channelID).get().then(channelData => {
+                    const {members} = channelData.data()
+                    console.log('CHANNELDATA', channelData.data())
+                    if (members.includes(uid)) {
+                        db.collection('channels').doc(channelID).collection('messages').add({
+                            userId: uid,
+                            text: text,
+                            attachments: [],
+                            createdAt: Date.now(),
+                            updatedAt: Date.now(),
+                            read: [uid]
+                        })
+                    }
                 })
             }
         })
 
+    })
+
+    socket.on('createChannel', function(data) {
+        const {uid, name, idToken} = data
+        validateUser(admin, idToken).then(valid => {
+            if(valid) {
+                db.collection('channels').add({
+                    name: name,
+                    members: [uid]
+                }).then(doc => {
+                    db.collection('users').doc(uid).update({
+                        channels: admin.firestore.FieldValue.arrayUnion(doc.id)
+                    })
+                })
+            }
+        })
     })
     socket.on('disconnect', function () {
       //disconnect listener
