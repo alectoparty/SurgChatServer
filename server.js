@@ -8,13 +8,18 @@ var cors = require('cors')
 var multer = require('multer')
 var upload = multer({dest: 'uploads/'})
 const port = process.env.PORT || 3001;
+var fs = require('fs')
 // app.use(cors(corsOptions))
 app.use(cors(corsOptions))
 
 var validateUser = require('./lib/validateUser').validateUser
 
 
-var server = require('http').Server(app);
+var server = require('https').createServer({
+    key: fs.readFileSync('/etc/ssl/private/nginx-selfsigned.key'),
+    cert: fs.readFileSync('/etc/ssl/certs/nginx-selfsigned.crt')
+  }, app);
+  
 var io = require('socket.io')(server);
 server.listen(port);
 
