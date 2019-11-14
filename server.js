@@ -19,18 +19,19 @@ var server = require('https').createServer({
     key: fs.readFileSync('/etc/ssl/private/nginx-selfsigned.key'),
     cert: fs.readFileSync('/etc/ssl/certs/nginx-selfsigned.crt')
   }, app);
-  
+
 var io = require('socket.io')(server);
 server.listen(port);
 
-var whitelist = ['http://167.172.130.157:3001']
+//var whitelist = ['https://167.172.130.157:3001', 'http://167.172.130.157:3001', 'https://167.172.130.157', 'http://167.172.130.157', 'https://localhost:3000', 'http://localhost:3000' ]
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+    // if (whitelist.indexOf(origin) !== -1) {
+    //   callback(null, true)
+    // } else {
+    //   callback(new Error('Not allowed by CORS'))
+    // }
+    callback(null, true)
   }
 }
 
